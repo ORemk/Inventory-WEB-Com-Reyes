@@ -1,0 +1,411 @@
+/* External CSS for better maintainability */
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+body {
+    background: linear-gradient(to right, #ff9a9e, #fad0c4);
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+button:focus {
+    outline: 2px solid #4CAF50;
+    outline-offset: 2px;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 10px;
+    padding: 40px;
+    margin: 20px auto;
+    max-width: 1600px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.main-header {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    animation: fadeIn 2s ease-in-out;
+    border-radius: 10px 10px 0 0;
+}
+
+/* Estilos mejorados para la barra de navegación */
+.navbar {
+    background: linear-gradient(to right, rgb(255, 126, 95), rgb(255, 204, 128));
+    overflow: hidden;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.navbar-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.navbar-menu li {
+    margin: 0 15px;
+    position: relative;
+}
+
+.navbar-menu li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar-menu li a:hover {
+    color: #333;
+    background-color: white;
+    border-color: #ff7e5f; /* Ajuste del color del borde */
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Animación para el enlace activo */
+.navbar-menu li a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #4CAF50;
+    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+}
+
+.navbar-menu li a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: slideIn 1s ease-out;
+    transition: background-color 0.3s;
+}
+
+form:hover {
+    background-color: #f1f1f1;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"],
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="file"]:focus,
+input[type="date"]:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Estilos para los campos de categoría */
+#categoria-producto, #nueva-categoria {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#categoria-producto:focus, #nueva-categoria:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Botones generales */
+button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Botones específicos */
+.btn-agregar {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-agregar:hover {
+    background-color: #45a049;
+}
+
+.btn-editar {
+    background-color: #2196F3;
+    color: white;
+}
+
+.btn-editar:hover {
+    background-color: #1976D2;
+}
+
+.btn-eliminar {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-eliminar:hover {
+    background-color: #d32f2f;
+}
+
+/* Mejora de la tabla */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 15px 20px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+th {
+    background: linear-gradient(to right, #4CAF50, #2196F3);
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+tr:nth-child(odd) {
+    background-color: #ffe0b2;
+}
+
+tr:nth-child(even) {
+    background-color: #fff3e0;
+}
+
+tr:hover {
+    background: linear-gradient(to right, #e8f5e9, #f0f8ff);
+    transition: background-color 0.3s ease-in-out;
+}
+
+td img {
+    border-radius: 5px;
+    max-width: 50px;
+    max-height: 50px;
+    object-fit: cover;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Mejora del footer */
+.footer {
+    background: linear-gradient(to right, #4CAF50, #2196F3);
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+    margin-top: 30px;
+    border-radius: 15px 15px 0 0;
+    box-shadow: 0 -3px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.footer:hover {
+    transform: scale(1.01);
+    box-shadow: 0 -5px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Calculadora digital mejorada */
+.calculator-modal {
+  display: none;
+  position: fixed;
+  bottom: 100px;
+  right: 40px;
+  background: #f7fafd;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(24,90,157,0.18);
+  padding: 28px 22px 18px 22px;
+  z-index: 10000;
+  min-width: 250px;
+  animation: fadeIn 0.4s;
+}
+.calculator-modal.active { display: block; }
+.calculator-modal h3 {
+  margin-top: 0;
+  color: #185a9d;
+  font-size: 1.3rem;
+  text-align: center;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+.calculator-display {
+  width: 100%;
+  height: 44px;
+  margin-bottom: 14px;
+  font-size: 1.25rem;
+  text-align: right;
+  padding: 7px 10px;
+  border: 1.5px solid #43cea2;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(24,90,157,0.04);
+  color: #185a9d;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.calculator-keys {
+  display: grid;
+  grid-template-columns: repeat(4, 48px);
+  gap: 8px;
+  justify-content: center;
+}
+.calculator-keys button {
+  height: 48px;
+  font-size: 1.15rem;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0 1px 4px rgba(24,90,157,0.08);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.calculator-keys button:hover, .calculator-keys button:focus {
+  background: linear-gradient(90deg, #185a9d 0%, #43cea2 100%);
+  transform: scale(1.07);
+}
+.calculator-keys .key-equals {
+  grid-column: span 2;
+  background: #ff9800;
+  color: #fff;
+}
+.calculator-keys .key-equals:hover {
+  background: #ffb74d;
+  color: #185a9d;
+}
+.calculator-keys .key-clear {
+  grid-column: span 2;
+  background: #db4437;
+  color: #fff;
+}
+.calculator-keys .key-clear:hover {
+  background: #e57373;
+  color: #185a9d;
+}
+.calculator-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #185a9d;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.calculator-close:hover { color: #db4437; }
+.calculator-history {
+  background: #e3f2fd;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+  font-size: 0.98rem;
+  color: #185a9d;
+  max-height: 80px;
+  overflow-y: auto;
+  box-shadow: 0 1px 4px rgba(24,90,157,0.04);
+}
+.calculator-history-title {
+  font-size: 0.95rem;
+  color: #2196f3;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+.copy-result-btn {
+  background: #43cea2;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 4px 10px;
+  font-size: 0.95rem;
+  margin-left: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.copy-result-btn:hover { background: #185a9d; }

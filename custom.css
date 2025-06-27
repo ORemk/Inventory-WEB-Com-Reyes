@@ -1,0 +1,1662 @@
+/* Variables CSS */
+:root {
+  --color-primary: #43cea2;
+  --color-secondary: #185a9d;
+  --color-accent: #ff9800;
+  --color-accent-light: #ffb74d;
+  --color-bg-light: #fffbe6;
+  --color-bg-gradient: linear-gradient(135deg, #fffbe6 0%, #e3ffe8 100%);
+  --color-border: #ff9800;
+  --color-danger: #db4437;
+  --color-success: #25d366;
+  --color-info: #2196f3;
+  --ai-anim-speed: 1.2s;
+  --ai-trans-speed: 0.5s;
+}
+
+/* Ajustes generales de diseño */
+/* Corrección: Ajuste de tamaños de fuente */
+body {
+  background: var(--color-bg-gradient);
+  color: var(--color-secondary);
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  letter-spacing: 0.2px;
+  transition: background 0.7s, color 0.5s;
+}
+
+.container {
+  max-width: 1600px; /* Aumentar el ancho máximo del contenedor */
+  margin: 0 auto; /* Centrar el contenedor */
+  padding: 40px; /* Incrementar el padding para mayor espacio */
+}
+
+input, button, label {
+  font-size: 16px; /* Ajustar el tamaño de los elementos del formulario */
+}
+
+/* Estilo general para todos los botones */
+button {
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  color: var(--color-secondary);
+  box-shadow: 0 4px 16px #ff980044;
+}
+
+/* Botones específicos con íconos */
+button i {
+  margin-right: 8px;
+  font-size: 16px;
+  vertical-align: middle; /* Alinear íconos verticalmente */
+}
+
+/* Botones de acción en tablas */
+.btn-accion {
+  background-color: transparent;
+  color: #555;
+  padding: 8px;
+  border-radius: 5px;
+  transition: transform 0.3s, color 0.3s;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+.btn-accion i {
+  color: #555;
+  transition: color 0.3s;
+}
+.btn-accion:hover {
+  color: #4CAF50;
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Botones de acción específicos */
+.btn-editar {
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+  border: none;
+}
+.btn-editar:hover {
+  background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-eliminar {
+  background-color: #f44336;
+  color: white;
+  border-radius: 5px;
+  padding: 8px 15px;
+  font-size: 14px;
+  border: none;
+  transition: background-color 0.3s, transform 0.3s;
+}
+.btn-eliminar:hover {
+  background-color: #d32f2f;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Botones de acción en cuadros de diálogo */
+.dialog-box button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.dialog-box button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+/* Estilos para el cuadro de diálogo de importar/exportar */
+.accion-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out; /* Reducir duración de la animación */
+}
+
+.accion-dialog-box {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Ajustar sombra */
+  animation: scaleIn 0.3s ease-in-out; /* Reducir duración de la animación */
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.accion-dialog-box h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.accion-dialog-box p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.accion-dialog-box.accion-exito {
+  border-left: 5px solid #4CAF50;
+}
+
+.accion-dialog-box.accion-error {
+  border-left: 5px solid #f44336;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Botones de acción en los cuadros de diálogo */
+.accion-dialog-box button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.accion-dialog-box button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+/* Estilos para los filtros y orden */
+.filtros-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  background: linear-gradient(to right, #f0f8ff, #e8f5e9);
+  border: 2px solid #4CAF50;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+  margin-bottom: 30px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.filtro-seccion, .orden-seccion {
+  flex: 1;
+  min-width: 250px;
+}
+
+.filtros-container h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.filtros-container label {
+  font-weight: bold;
+  color: #555;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.filtros-container input, .filtros-container select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  font-size: 14px;
+}
+
+.filtros-container input:focus, .filtros-container select:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Botones de acción en los filtros */
+.botones-filtro {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  align-items: center;
+  flex: 1;
+}
+
+.btn-limpiar, .btn-aplicar {
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease; /* Simplificar transición */
+}
+
+.btn-limpiar:hover {
+  background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  color: var(--color-secondary);
+  box-shadow: 0 4px 16px #ff980044;
+}
+
+.btn-aplicar:hover {
+  background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  color: var(--color-secondary);
+  box-shadow: 0 4px 16px #ff980044;
+}
+
+/* Botones */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Diseño actualizado para la tabla de productos */
+.table-container {
+  margin-top: 20px;
+  overflow-x: auto;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Sombra ligera */
+  border: 3px solid #4CAF50; /* Borde verde */
+  background: linear-gradient(to bottom, #ffffff, #f9f9f9); /* Fondo bicolor */
+  padding: 10px;
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px #43cea244;
+}
+
+.table-container th, .table-container td {
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 1.5px solid #e3ffe8;
+  font-size: 1.05rem;
+}
+
+.table-container th {
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  color: #fff;
+  font-weight: 700;
+}
+
+.table-container tr:hover {
+  background: #e3ffe8;
+}
+
+/* Estilo para la columna de acciones */
+.table-container table td:last-child {
+  background-color: #fce4ec;
+  color: #d81b60;
+  font-weight: bold;
+}
+.table-container table td:last-child:hover {
+  background-color: #f8bbd0;
+  color: #ad1457;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Ajuste del estilo para la columna de Fecha y Hora de Registro */
+.table-container table th:nth-child(6),
+.table-container table td:nth-child(6) {
+  background-color: #f9f9f9;
+  color: #333;
+  text-align: center;
+  font-size: 14px;
+  font-family: 'Arial', sans-serif;
+  padding: 10px;
+  border: 1px solid #ddd;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.table-container table tr:hover td:nth-child(6) {
+  background-color: #ffeb3b;
+  color: #000;
+  /* Eliminar transform para evitar salto visual */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Ajuste del color del texto en la columna de categoría */
+.table-container table th:nth-child(7),
+.table-container table td:nth-child(7) {
+  color: #4CAF50;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+.table-container table td:nth-child(7):hover {
+  color: #388E3C;
+  transition: color 0.3s ease-in-out;
+}
+
+/* Mejora del color del texto en la tabla de productos */
+.table-container table td {
+  color: #555;
+  font-size: 14px;
+  text-align: center;
+  padding: 10px;
+  transition: color 0.3s ease-in-out;
+}
+.table-container table tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+.table-container table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+.table-container table tr:hover {
+  background: linear-gradient(to right, #e8f5e9, #f0f8ff);
+  color: #000;
+  /* Eliminar transform para evitar salto visual */
+  transition: background-color 0.3s ease-in-out;
+}
+th, td {
+  padding: 15px 20px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+th {
+  background: linear-gradient(to right, #4CAF50, #2196F3);
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
+}
+tr:nth-child(odd) {
+  background-color: #f8f8f8;
+}
+tr:nth-child(even) {
+  background-color: #ffffff;
+}
+tr:hover {
+  background-color: #e0f7fa;
+  /* Eliminar transform para evitar salto visual */
+  transition: background-color 0.3s ease;
+  background: linear-gradient(to right, #e8f5e9, #f0f8ff);
+}
+td img {
+  border-radius: 5px;
+  max-width: 50px;
+  max-height: 50px;
+  object-fit: cover;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Corrección: Se agregó un estilo para el botón de cancelar edición */
+.btn-cancelar {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-cancelar:hover {
+  background-color: #d32f2f;
+  transform: scale(1.05);
+}
+
+/* Mejora del diseño de las secciones */
+.section {
+  margin: 30px 0;
+  padding: 30px; /* Incrementar el padding interno */
+  background: linear-gradient(to bottom right, #ffffff, #f9f9f9); /* Fondo bicolor */
+  border: 4px solid transparent; /* Borde inicial transparente */
+  border-image: linear-gradient(to right, #4CAF50, #2196F3); /* Borde bicolor */
+  border-image-slice: 1;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+
+.section:hover {
+  transform: scale(1.03);
+  background: linear-gradient(to bottom right, #f7f7f7, #e8f5e9); /* Fondo bicolor al pasar el cursor */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border-color: #4CAF50; /* Cambiar el color del borde al pasar el cursor */
+}
+
+/* Mejora de los encabezados de las secciones */
+.section h2 {
+  font-size: 24px; /* Reducir tamaño de fuente */
+  color: #333;
+  margin-bottom: 15px; /* Ajustar margen inferior */
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: linear-gradient(to right, #4CAF50, #2196F3); /* Texto bicolor */
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Mejora de los botones */
+.section .btn {
+  background: linear-gradient(to right, #4CAF50, #2196F3); /* Fondo bicolor */
+  color: white;
+  padding: 10px 20px; /* Ajustar padding */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px; /* Unificar tamaño de fuente */
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Simplificar transición */
+}
+
+.section .btn:hover {
+  background: linear-gradient(to right, #2196F3, #4CAF50); /* Invertir colores al pasar el cursor */
+  transform: scale(1.05); /* Reducir escala */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Mejora de los cuadros de diálogo */
+.dialog-box {
+  border: 4px solid transparent; /* Borde inicial transparente */
+  border-image: linear-gradient(to right, #4CAF50, #2196F3); /* Borde bicolor */
+  border-image-slice: 1;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+
+.dialog-box:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  border-color: #2196F3; /* Cambiar el color del borde al pasar el cursor */
+}
+
+/* Mejora de los inputs */
+input, select {
+  border: 2px solid var(--color-primary);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 1.08rem;
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  background: #f7fafd;
+  color: var(--color-secondary);
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+input:focus, select:focus {
+  border: 2px solid var(--color-accent);
+  box-shadow: 0 2px 8px #ffb74d44;
+  outline: none;
+}
+
+/* Estilo mejorado para la sección de productos registrados */
+#productos {
+  background: linear-gradient(to bottom, #f0f8ff, #e8f5e9); /* Fondo bicolor */
+  border: 3px solid #4CAF50; /* Borde verde */
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Sombra */
+  transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+
+#productos:hover {
+  transform: scale(1.02); /* Efecto de zoom */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Sombra más intensa */
+  background: linear-gradient(to bottom, #e8f5e9, #f0f8ff); /* Fondo invertido */
+}
+
+/* Encabezado de la sección */
+#productos h2 {
+  font-size: 26px;
+  color: #333;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  background: linear-gradient(to right, #4CAF50, #2196F3); /* Texto bicolor */
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Estilos para el formulario de contacto */
+.contact-form-container {
+  margin-top: 20px;
+  padding: 25px;
+  background: linear-gradient(to right, #f0f8ff, #e8f5e9);
+  border: 3px solid #4CAF50;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 1s ease-in-out;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.contact-form-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.contact-form-container h3 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: linear-gradient(to right, #4CAF50, #2196F3);
+  -webkit-background-clip: text;
+  background-clip: text;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.contact-form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact-form-container label {
+  font-weight: bold;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-form-container input,
+.contact-form-container textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background: #f9f9f9;
+}
+
+.contact-form-container input:focus,
+.contact-form-container textarea:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+  background: #ffffff;
+}
+
+.contact-form-container textarea {
+  resize: none;
+}
+
+.contact-form-container button {
+  background: linear-gradient(to right, #4CAF50, #2196F3);
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.contact-form-container button:hover {
+  background: linear-gradient(to right, #2196F3, #4CAF50);
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.contact-form-container button i {
+  font-size: 18px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* --- Modo Futurista Mejorado UX/UI --- */
+body.ai-enhanced {
+  background: linear-gradient(135deg, #181c2b 0%, #2c5364 100%) !important;
+  color: #00ffcc !important;
+  transition: background 0.7s, color 0.5s;
+}
+body.ai-enhanced .main-header,
+body.ai-enhanced .footer {
+  background: linear-gradient(90deg, #0fffc1 0%, #7e0fff 100%) !important;
+  color: #181c2b !important;
+  box-shadow: 0 8px 32px #0fffc1cc, 0 2px 16px #7e0fff88;
+  border-radius: 18px;
+  border: 2.5px solid #0fffc1;
+}
+body.ai-enhanced .navbar {
+  background: linear-gradient(90deg, #0fffc1 0%, #7e0fff 100%) !important;
+  box-shadow: 0 4px 16px #0fffc1cc;
+}
+body.ai-enhanced .navbar-menu li a {
+  color: #181c2b !important;
+  background: transparent !important;
+  border: 2px solid #0fffc1 !important;
+  transition: all 0.3s;
+}
+body.ai-enhanced .navbar-menu li a:hover {
+  color: #fff !important;
+  background: #7e0fff !important;
+  border-color: #0fffc1 !important;
+  box-shadow: 0 4px 16px #7e0fff88;
+}
+body.ai-enhanced .container,
+body.ai-enhanced .section,
+body.ai-enhanced .table-container,
+body.ai-enhanced .import-export,
+body.ai-enhanced #tabla-ejemplo,
+body.ai-enhanced #registro-productos,
+body.ai-enhanced #formulario-inventario {
+  background: linear-gradient(135deg, #23294a 0%, #181c2b 100%) !important;
+  color: #00ffcc !important;
+  border: 2.5px solid #0fffc1 !important;
+  box-shadow: 0 8px 32px #0fffc1cc, 0 2px 16px #7e0fff88;
+}
+body.ai-enhanced .section h2,
+body.ai-enhanced .contact-form-container h3 {
+  color: #0fffc1 !important;
+  text-shadow: 0 0 10px #0fffc1, 0 0 20px #7e0fff;
+  background: none !important;
+}
+body.ai-enhanced .table-container th {
+  background: linear-gradient(90deg, #0fffc1 0%, #7e0fff 100%) !important;
+  color: #181c2b !important;
+}
+body.ai-enhanced .table-container td {
+  color: #fff !important;
+}
+body.ai-enhanced .fab-btn,
+body.ai-enhanced .fab-calc,
+body.ai-enhanced .fab-ai,
+body.ai-enhanced .fab-whatsapp,
+body.ai-enhanced .fab-login {
+  background: linear-gradient(135deg, #0fffc1 0%, #7e0fff 100%) !important;
+  color: #181c2b !important;
+  border: 2.5px solid #0fffc1 !important;
+  box-shadow: 0 8px 32px #0fffc1cc, 0 2px 16px #7e0fff88 !important;
+  filter: brightness(1.15) drop-shadow(0 0 12px #0fffc1);
+}
+body.ai-enhanced .fab-btn:hover,
+body.ai-enhanced .fab-calc:hover,
+body.ai-enhanced .fab-ai:hover {
+  background: linear-gradient(135deg, #7e0fff 0%, #0fffc1 100%) !important;
+  color: #fff !important;
+  border-color: #7e0fff !important;
+  box-shadow: 0 12px 36px #7e0fffcc, 0 2px 16px #0fffc188 !important;
+  transform: scale(1.12) rotate(-8deg);
+}
+body.ai-enhanced .btn,
+body.ai-enhanced button,
+body.ai-enhanced .btn-agregar-producto,
+body.ai-enhanced .btn-editar,
+body.ai-enhanced .btn-eliminar,
+body.ai-enhanced .btn-limpiar,
+body.ai-enhanced .btn-aplicar {
+  background: linear-gradient(90deg, #0fffc1 0%, #7e0fff 100%) !important;
+  color: #181c2b !important;
+  border: 2px solid #0fffc1 !important;
+  box-shadow: 0 4px 16px #0fffc1cc;
+  transition: background 0.3s, color 0.3s, border 0.3s;
+}
+body.ai-enhanced .btn:hover,
+body.ai-enhanced button:hover {
+  background: linear-gradient(90deg, #7e0fff 0%, #0fffc1 100%) !important;
+  color: #fff !important;
+  border-color: #7e0fff !important;
+}
+body.ai-enhanced input,
+body.ai-enhanced select,
+body.ai-enhanced textarea {
+  background: #23294a !important;
+  color: #0fffc1 !important;
+  border: 2px solid #0fffc1 !important;
+  box-shadow: 0 2px 8px #0fffc1cc;
+}
+body.ai-enhanced input:focus,
+body.ai-enhanced select:focus,
+body.ai-enhanced textarea:focus {
+  border-color: #7e0fff !important;
+  box-shadow: 0 4px 16px #7e0fff88;
+  color: #fff !important;
+}
+body.ai-enhanced .dialog-box.futurista {
+  background: linear-gradient(90deg, #0fffc1 0%, #7e0fff 100%) !important;
+  color: #181c2b !important;
+  border: 2.5px solid #0fffc1 !important;
+  box-shadow: 0 8px 32px #0fffc1cc, 0 2px 16px #7e0fff88 !important;
+}
+body.ai-enhanced .dialog-box.futurista h2 {
+  color: #181c2b !important;
+  text-shadow: 0 0 10px #0fffc1, 0 0 20px #7e0fff;
+}
+body.ai-enhanced .dialog-box.futurista button {
+  background: linear-gradient(90deg, #7e0fff 0%, #0fffc1 100%) !important;
+  color: #fff !important;
+  border: 2px solid #7e0fff !important;
+}
+body.ai-enhanced .dialog-box.futurista button:hover {
+  background: linear-gradient(90deg, #0fffc1 0%, #7e0fff 100%) !important;
+  color: #181c2b !important;
+  border-color: #0fffc1 !important;
+}
+body.ai-enhanced .ai-chatbot {
+  background: linear-gradient(135deg, #181c2b 0%, #2c5364 100%) !important;
+  color: #0fffc1 !important;
+  border: 2.5px solid #0fffc1 !important;
+  box-shadow: 0 8px 32px #0fffc1cc, 0 2px 16px #7e0fff88 !important;
+}
+body.ai-enhanced .ai-chat-header {
+  background: linear-gradient(90deg, #0fffc1 0%, #7e0fff 100%) !important;
+  color: #181c2b !important;
+}
+body.ai-enhanced .ai-chat-close {
+  color: #181c2b !important;
+}
+body.ai-enhanced .ai-chat-close:hover {
+  color: #7e0fff !important;
+}
+body.ai-enhanced .ai-chat-body {
+  color: #0fffc1 !important;
+}
+body.ai-enhanced .ai-chat-msg-bot {
+  background: linear-gradient(90deg, #0fffc1 0%, #7e0fff 100%) !important;
+  color: #181c2b !important;
+}
+body.ai-enhanced .ai-chat-msg-user {
+  background: #23294a !important;
+  color: #fff !important;
+}
+body.ai-enhanced .ai-chat-input {
+  border-top: 1.5px solid #0fffc1 !important;
+  background: #23294a !important;
+}
+body.ai-enhanced .ai-chat-input input {
+  background: transparent !important;
+  color: #0fffc1 !important;
+}
+body.ai-enhanced .ai-chat-input button {
+  color: #0fffc1 !important;
+}
+body.ai-enhanced .ai-chat-input button:hover {
+  color: #7e0fff !important;
+}
+body.ai-enhanced .ai-chat-status {
+  background: #23294a !important;
+  color: #0fffc1 !important;
+  border-top: 1px solid #0fffc1 !important;
+}
+
+/* --- CALCULADORA: REDUCIR TAMAÑO, MANTENIENDO DISEÑO Y COLORES --- */
+.calculator-modal {
+  min-width: 220px;
+  width: 250px;
+  max-width: 90vw;
+  padding: 18px 10px 14px 10px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #fffbe6 0%, #ffe0c3 100%);
+  box-shadow: 0 12px 48px #ffb74d55, 0 2px 16px #ff980044;
+  border: 2.5px solid #ff9800;
+  z-index: 10000;
+  transition: box-shadow 0.3s, background 0.3s, width 0.3s, min-width 0.3s, padding 0.3s;
+  margin-right: 80px; /* Deja espacio para los botones flotantes */
+}
+.calculator-modal.active {
+  /* Asegura que los botones flotantes no se encimen */
+  margin-right: 80px;
+}
+.calculator-modal h3 {
+  font-size: 1.08rem;
+  margin-bottom: 10px;
+  color: #333;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: linear-gradient(to right, #4CAF50, #2196F3); /* Texto bicolor */
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.calculator-display {
+  width: 100%;
+  height: 36px;
+  margin-bottom: 12px;
+  font-size: 1.08rem;
+  padding: 7px 10px;
+  border-radius: 10px;
+  border: 2px solid var(--color-primary);
+  background: #f7fafd;
+  color: var(--color-secondary);
+  transition: border 0.3s, box-shadow 0.3s;
+}
+.calculator-display:focus {
+  border: 2px solid var(--color-accent);
+  box-shadow: 0 2px 8px #ffb74d44;
+  outline: none;
+}
+.calculator-keys {
+  display: grid;
+  grid-template-columns: repeat(4, 44px);
+  grid-template-rows: repeat(5, 38px);
+  gap: 8px 7px;
+  justify-content: center;
+  margin-bottom: 6px;
+  width: 100%;
+  max-width: 180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.calculator-keys button {
+  font-size: 1rem;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #ff9800 0%, #ffb74d 100%);
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0 2px 12px #ffb74d44, 0 0 8px #ff980044;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.18s, box-shadow 0.18s, font-size 0.18s;
+  outline: none;
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+}
+.calculator-keys .key-op {
+  font-size: 1rem;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #2196F3 0%, #43cea2 100%);
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0 2px 16px #43cea244;
+  border: 2px solid #43cea2;
+  filter: brightness(1.15) saturate(1.18);
+}
+.calculator-keys .key-equals {
+  font-size: 1.1rem;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+  color: #fff;
+  font-weight: bold;
+}
+.calculator-keys .key-clear {
+  font-size: 0.95rem;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #db4437 0%, #e57373 100%);
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0 2px 16px #db443744;
+  border: 2px solid #db4437;
+  filter: brightness(1.12) saturate(1.12);
+}
+.calculator-keys button:hover, .calculator-keys button:focus {
+  background: linear-gradient(90deg, #43cea2 0%, #b2fefa 100%);
+  color: #185a9d;
+  transform: scale(1.11);
+  box-shadow: 0 4px 20px #43cea288;
+  filter: brightness(1.22) saturate(1.22);
+}
+.copy-result-btn {
+  background: #43cea2;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 7px 18px;
+  font-size: 0.95rem;
+  margin-left: 4px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  font-weight: 600;
+  box-shadow: 0 2px 8px #43cea244;
+}
+.copy-result-btn:hover {
+  background: #185a9d;
+  color: #fffbe6;
+}
+.calculator-history {
+  background: #e3f2fd;
+  border-radius: 7px;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  color: #185a9d;
+  max-height: 60px;
+  overflow-y: auto;
+  box-shadow: 0 2px 8px #43cea244;
+}
+.calculator-history-title {
+  font-size: 0.92rem;
+  margin-bottom: 2px;
+  color: #2196f3;
+  font-weight: bold;
+}
+
+/* Responsive para calculadora */
+@media (max-width: 600px) {
+  .calculator-modal {
+    min-width: 90vw;
+    width: 95vw;
+    max-width: 99vw;
+    padding: 10px 2vw 10px 2vw;
+    border-radius: 12px;
+    margin-right: 0;
+  }
+  .calculator-keys {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 30px);
+    gap: 5px 5px;
+    max-width: 100vw;
+  }
+  .calculator-keys button {
+    font-size: 0.92rem;
+    border-radius: 7px;
+  }
+  .calculator-display {
+    font-size: 0.98rem;
+    height: 28px;
+    border-radius: 7px;
+    padding: 5px 6px;
+  }
+}
+
+
+/* Calculadora: distribución didáctica y diseño funcional de botones */
+#calculatorModal .calculator-keys {
+  display: grid;
+  grid-template-areas:
+    'clear clear perc sqrt'
+    'seven eight nine div'
+    'four five six mul'
+    'one two three sub'
+    'zero zero dot add'
+    'equals equals equals equals';
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px 14px;
+  width: 100%;
+  margin-top: 18px;
+  justify-items: center;
+}
+
+#calculatorModal .calculator-keys button {
+  font-size: 1.22rem;
+  padding: 18px 0;
+  border-radius: 16px;
+  min-width: 54px;
+  min-height: 44px;
+  background: linear-gradient(135deg, #ff9800 0%, #ffb74d 100%);
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 2px 12px #ffb74d44, 0 0 8px #ff980044;
+  border: none;
+  margin: 0 2px;
+  transition: background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.18s;
+  outline: none;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+#calculatorModal .calculator-keys .key-clear {
+  grid-area: clear;
+  background: linear-gradient(135deg, #db4437 0%, #e57373 100%);
+  color: #fff;
+}
+
+#calculatorModal .calculator-keys .key-equals {
+  grid-area: equals;
+  background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+  color: #fff;
+  font-size: 1.4rem;
+}
+
+#calculatorModal .calculator-keys .key-op[title="Porcentaje"] {
+  grid-area: perc;
+}
+
+#calculatorModal .calculator-keys .key-op[title="Raíz cuadrada"] {
+  grid-area: sqrt;
+}
+
+#calculatorModal .calculator-keys button[value="7"] {
+  grid-area: seven;
+}
+
+#calculatorModal .calculator-keys button[value="8"] {
+  grid-area: eight;
+}
+
+#calculatorModal .calculator-keys button[value="9"] {
+  grid-area: nine;
+}
+
+#calculatorModal .calculator-keys .key-op[onclick*="/"] {
+  grid-area: div;
+}
+
+#calculatorModal .calculator-keys button[value="4"] {
+  grid-area: four;
+}
+
+#calculatorModal .calculator-keys button[value="5"] {
+  grid-area: five;
+}
+
+#calculatorModal .calculator-keys button[value="6"] {
+  grid-area: six;
+}
+
+#calculatorModal .calculator-keys .key-op[onclick*="*"] {
+  grid-area: mul;
+}
+
+#calculatorModal .calculator-keys button[value="1"] {
+  grid-area: one;
+}
+
+#calculatorModal .calculator-keys button[value="2"] {
+  grid-area: two;
+}
+
+#calculatorModal .calculator-keys button[value="3"] {
+  grid-area: three;
+}
+
+#calculatorModal .calculator-keys .key-op[onclick*="-"] {
+  grid-area: sub;
+}
+
+#calculatorModal .calculator-keys button[value="0"] {
+  grid-area: zero;
+  grid-column: span 2;
+}
+
+#calculatorModal .calculator-keys button[value="."] {
+  grid-area: dot;
+}
+
+#calculatorModal .calculator-keys .key-op[onclick*="+"] {
+  grid-area: add;
+}
+
+/* Cuando la calculadora está activa, mueve los botones flotantes más lejos */
+.calculator-modal.active ~ .fab-btn,
+.calculator-modal.active ~ .fab-calc,
+.calculator-modal.active ~ .fab-ai,
+.calculator-modal.active ~ .fab-whatsapp,
+.calculator-modal.active ~ .fab-login {
+  right: 24px !important;
+  bottom: 320px !important;
+}
+
+/* --- AI Button & Chatbot Styles --- */
+body.ai-enhanced *, body.ai-enhanced {
+  transition: none !important;
+  animation: none !important;
+}
+.fab-ai {
+  position: fixed;
+  z-index: 10020;
+  animation: ai-pulse var(--ai-anim-speed) infinite;
+  transition: box-shadow var(--ai-trans-speed), background var(--ai-trans-speed), filter var(--ai-trans-speed), transform 0.2s;
+}
+.fab-ai.active, .fab-ai:active {
+  box-shadow: 0 0 32px #0fffc1cc, 0 0 48px #7e0fffcc, 0 0 16px #fff;
+  filter: brightness(1.25) drop-shadow(0 0 16px #0fffc1);
+  transform: scale(1.12) rotate(-6deg);
+}
+.fab-ai .fa-robot, .fab-ai .fa-magic, .fab-ai .fa-brain {
+  animation: ai-icon-anim var(--ai-anim-speed) infinite alternate;
+}
+@keyframes ai-pulse {
+  0% { box-shadow: 0 0 16px #0fffc1, 0 0 32px #7e0fff; }
+  50% { box-shadow: 0 0 32px #0fffc1cc, 0 0 48px #7e0fffcc; }
+  100% { box-shadow: 0 0 16px #0fffc1, 0 0 32px #7e0fff; }
+}
+@keyframes ai-icon-anim {
+  0% { filter: brightness(1) drop-shadow(0 0 4px #0fffc1); }
+  100% { filter: brightness(1.3) drop-shadow(0 0 12px #7e0fff); }
+}
+.ai-chatbot {
+  position: fixed;
+  bottom: 170px;
+  right: 30px;
+  width: 340px;
+  max-width: 95vw;
+  background: linear-gradient(135deg, #181c2b 0%, #2c5364 100%);
+  color: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px #0fffc1cc, 0 2px 16px #7e0fff88;
+  z-index: 10030;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  border: 2.5px solid #0fffc1;
+  animation: fadeIn var(--ai-trans-speed);
+}
+.ai-chat-header {
+  background: linear-gradient(90deg, #0fffc1 0%, #7e0fff 100%);
+  color: #181c2b;
+  padding: 12px 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.1rem;
+}
+.ai-chat-header .ai-anim {
+  margin-right: 8px;
+  animation: ai-icon-anim var(--ai-anim-speed) infinite alternate;
+}
+.ai-chat-close {
+  background: none;
+  border: none;
+  color: #181c2b;
+  font-size: 1.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+.ai-chat-close:hover { color: #7e0fff; }
+.ai-chat-body {
+  flex: 1;
+  padding: 16px 14px;
+  overflow-y: auto;
+  max-height: 260px;
+  font-size: 1rem;
+}
+.ai-chat-msg {
+  margin-bottom: 10px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  max-width: 85%;
+  word-break: break-word;
+  box-shadow: 0 2px 8px #0fffc144;
+  animation: fadeIn 0.4s;
+}
+.ai-chat-msg-bot {
+  background: linear-gradient(90deg, #0fffc1 0%, #7e0fff 100%);
+  color: #181c2b;
+  align-self: flex-start;
+}
+.ai-chat-msg-user {
+  background: #23294a;
+  color: #fff;
+  align-self: flex-end;
+  text-align: right;
+}
+.ai-chat-input {
+  display: flex;
+  border-top: 1.5px solid #0fffc1;
+  background: #23294a;
+}
+.ai-chat-input input {
+  flex: 1;
+  border: none;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border-radius: 0;
+  outline: none;
+  background: transparent;
+  color: #fff;
+}
+.ai-chat-input button {
+  background: none;
+  border: none;
+  color: #0fffc1;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0 12px;
+  transition: color 0.2s;
+}
+.ai-chat-input button:hover { color: #7e0fff; }
+.ai-chat-status {
+  background: #23294a;
+  color: #0fffc1;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 0.98rem;
+  border-top: 1px solid #0fffc1;
+  animation: fadeIn var(--ai-trans-speed);
+}
+@media (max-width: 600px) {
+  .ai-chatbot { right: 8px; width: 98vw; min-width: 0; }
+}
+
+/* --- AI Chatbot cálido --- */
+.ai-chatbot,
+.ai-chatbot.ai-warm,
+body.ai-enhanced .ai-chatbot {
+  background: linear-gradient(135deg, #fffbe6 0%, #ffe0c3 100%);
+  color: #a65c00;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px #ffb74d99, 0 2px 16px #ff980044;
+  border: 2.5px solid #ff9800;
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+}
+.ai-chat-header {
+  background: linear-gradient(90deg, #ffb74d 0%, #ff9800 100%);
+  color: #fffbe6;
+}
+.ai-chat-header .ai-anim {
+  margin-right: 8px;
+  animation: ai-icon-anim 1.2s infinite alternate;
+  color: #fffbe6;
+}
+.ai-chat-close {
+  background: none;
+  border: none;
+  color: #fffbe6;
+  font-size: 1.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+.ai-chat-close:hover { color: #ff9800; }
+.ai-chat-body {
+  flex: 1;
+  padding: 16px 14px;
+  overflow-y: auto;
+  max-height: 260px;
+  font-size: 1rem;
+  color: #a65c00;
+}
+.ai-chat-msg-bot {
+  background: linear-gradient(90deg, #ffb74d 0%, #ffe0c3 100%);
+  color: #a65c00;
+  align-self: flex-start;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px #ffb74d44;
+}
+.ai-chat-msg-user {
+  background: #ffe0c3;
+  color: #ff9800;
+  align-self: flex-end;
+  text-align: right;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px #ffb74d44;
+}
+.ai-chat-input {
+  display: flex;
+  border-top: 1.5px solid #ffb74d;
+  background: #fffbe6;
+}
+.ai-chat-input input {
+  flex: 1;
+  border: none;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border-radius: 0;
+  outline: none;
+  background: transparent;
+  color: #a65c00;
+}
+.ai-chat-input button {
+  background: none;
+  border: none;
+  color: #ff9800;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0 12px;
+  transition: color 0.2s;
+}
+.ai-chat-input button:hover { color: #ffb74d; }
+.ai-chat-status {
+  background: #ffe0c3;
+  color: #ff9800;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 0.98rem;
+  border-top: 1px solid #ffb74d;
+  animation: fadeIn 0.5s;
+}
+
+/* Asegura que todos los botones tengan pointer-events y cursor correctos */
+button,
+.btn,
+.btn-login,
+.btn-agregar-producto,
+.btn-editar,
+.btn-eliminar,
+.btn-limpiar,
+.btn-aplicar,
+.btn-accion,
+.btn-guardar,
+.btn-cancelar,
+.copy-result-btn,
+.fab-btn,
+.fab-calc,
+.fab-ai,
+.fab-whatsapp,
+.fab-login {
+  cursor: pointer;
+  pointer-events: auto;
+  user-select: none;
+  /* ...existing code for transitions, etc... */
+}
+
+/* Asegura que los botones deshabilitados no sean clickeables */
+button:disabled,
+.btn:disabled,
+.btn-login:disabled,
+.btn-agregar-producto:disabled,
+.btn-editar:disabled,
+.btn-eliminar:disabled,
+.btn-limpiar:disabled,
+.btn-aplicar:disabled,
+.btn-accion:disabled,
+.btn-guardar:disabled,
+.btn-cancelar:disabled,
+.copy-result-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Mejora visual para botones de acción en tablas y formularios */
+.btn-accion,
+.btn-guardar,
+.btn-cancelar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Mejora visual para botones flotantes */
+.fab-btn,
+.fab-calc,
+.fab-ai,
+.fab-whatsapp,
+.fab-login {
+  position: fixed;
+  right: 30px;
+  z-index: 10020;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  box-shadow: 0 4px 16px rgba(24,90,157,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s, filter 0.3s;
+  outline: none;
+  animation: floatBtn 2.2s infinite ease-in-out;
+}
+.fab-whatsapp { background: #25d366; bottom: 170px; }
+.fab-login { background: #007bff; bottom: 240px; }
+.fab-ai {
+  background: linear-gradient(135deg, #00f0ff 0%, #7e00ff 100%);
+  bottom: 100px;
+  box-shadow: 0 0 24px #00f0ff88, 0 0 32px #7e00ff44;
+  border: 2.5px solid #00f0ff;
+  transition: background 0.4s, box-shadow 0.4s, border 0.4s, filter 0.4s;
+}
+.fab-calc {
+  background: linear-gradient(135deg, #ffb88c 0%, #ff6f61 100%) !important;
+  color: #fffbe6 !important;
+  box-shadow: 0 6px 24px #ffb88c99, 0 2px 8px #ff6f6199;
+  border: 2.5px solid #ff9800;
+  width: 62px;
+  height: 62px;
+  font-size: 2.1rem;
+  filter: drop-shadow(0 0 8px #ffecd2cc);
+  animation: calc-fab-in 0.7s 0.2s forwards, floatBtn 2.2s infinite ease-in-out;
+  transition: background 0.25s, color 0.2s, box-shadow 0.2s, border 0.2s, transform 0.2s;
+}
+.fab-calc:hover, .fab-calc:focus {
+  background: linear-gradient(135deg, #ff6f61 0%, #ffb88c 100%) !important;
+  color: #fffbe6 !important;
+  box-shadow: 0 10px 32px #ffb88c99, 0 2px 16px #ff6f6199;
+  border: 2.5px solid #ffb300;
+  transform: scale(1.12) rotate(-8deg);
+  outline: none;
+}
+.fab-calc i {
+  pointer-events: none;
+  font-size: 1.5em;
+  filter: drop-shadow(0 0 2px #fffbe6cc);
+}
+@keyframes floatBtn {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-16px) scale(1.10) rotate(-4deg); }
+  100% { transform: translateY(0) scale(1); }
+}
+@media (max-width: 600px) {
+  .fab-btn, .fab-calc { right: 16px; left: auto; }
+  .fab-whatsapp { bottom: 140px; }
+  .fab-login { bottom: 200px; }
+  .fab-ai { bottom: 70px; left: auto; right: 16px; }
+  .fab-calc { right: 16px; left: auto; }
+}
+
+/* LOGIN UI/UX MEJORADO */
+body.login-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+}
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+}
+.login-card {
+  background: rgba(24,28,43,0.92);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px #0fffc1cc, 0 2px 16px #7e0fff88;
+  padding: 32px 48px 32px 48px;
+  max-width: 420px;
+  min-width: 320px;
+  min-height: 0;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  border: 2.5px solid #0fffc1;
+  filter: drop-shadow(0 0 18px #0fffc1cc) brightness(1.08) saturate(1.12);
+  align-items: stretch;
+  justify-content: center;
+  transition: box-shadow 0.3s, border 0.3s, background 0.3s, padding 0.3s;
+  animation: fadeIn 0.8s cubic-bezier(.4,2,.6,1);
+}
+.login-card h2 {
+  color: #0fffc1;
+  font-size: 2.1rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 12px #7e0fff, 0 0 24px #0fffc1cc;
+}
+.login-card p {
+  color: #b2fefa;
+  font-size: 1.13rem;
+  margin-bottom: 18px;
+  text-align: center;
+  text-shadow: 0 1px 8px #0fffc1cc;
+}
+.login-card label {
+  color: #7e0fff;
+  font-weight: 700;
+  font-size: 1.08rem;
+  margin-bottom: 4px;
+  text-shadow: 0 1px 8px #0fffc1cc;
+}
+.login-card input {
+  width: 100%;
+  padding: 14px 10px;
+  margin-bottom: 12px;
+  border: 2px solid #0fffc1;
+  border-radius: 14px;
+  font-size: 1.13rem;
+  background: #181c2b;
+  color: #fff;
+  transition: border 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.login-card input:focus {
+  border-color: #ff9800;
+  box-shadow: 0 0 8px #ff9800cc;
+}
+.login-card input:invalid {
+  border-color: #db4437;
+}
+.btn-login {
+  background: linear-gradient(90deg, #0fffc1 0%, #43cea2 100%);
+  color: #23294a;
+  font-weight: 700;
+  font-size: 1.18rem;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 0;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 12px #0fffc1aa;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+.btn-login:hover, .btn-login:focus {
+  background: linear-gradient(90deg, #43cea2 0%, #0fffc1 100%);
+  color: #181c2b;
+  box-shadow: 0 4px 18px #0fffc1cc;
+  transform: scale(1.03);
+}
+.social-login {
+  margin: 10px 0 0 0;
+  text-align: center;
+}
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 8px;
+}
+.btn-social {
+  background: #fff;
+  color: #23294a;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.3rem;
+  box-shadow: 0 2px 8px #0fffc1aa;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
+  cursor: pointer;
+}
+.btn-social:hover, .btn-social:focus {
+  background: #0fffc1;
+  color: #23294a;
+  box-shadow: 0 4px 18px #0fffc1cc;
+  transform: scale(1.08);
+}
+.register-link {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 1.05rem;
+}
+.register-link a {
+  color: #0fffc1;
+  font-weight: 700;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+.register-link a:hover {
+  color: #ff9800;
+}
+.input-error {
+  color: #db4437;
+  font-size: 0.98rem;
+  margin-top: -8px;
+  margin-bottom: 8px;
+  text-align: left;
+}
+@media (max-width: 600px) {
+  .login-card {
+    max-width: 98vw;
+    min-width: 0;
+    padding: 18px 2vw 18px 2vw;
+  }
+}

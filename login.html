@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Inicio de sesión">
+    <meta name="keywords" content="Login, Usuarios, Inventario">
+    <meta name="author" content="SAKORM`S-IT">
+    <title>Inicio de Sesión</title>
+    <!-- CSS principal y personalizados -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/login.css">
+    <!-- Fuentes y librerías externas -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Poppins:400,700|Roboto:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Solo para overrides rápidos, evita poner aquí estilos definitivos -->
+    <style>
+      /* Overrides puntuales, elimina si no es necesario */
+      body {
+        background: linear-gradient(135deg, #fff3e0 0%, #ffd8b0 100%) !important;
+      }
+      /* Botones de acción cálidos para la columna de acciones en la tabla */
+      .table-container .btn-accion {
+        background: linear-gradient(90deg, #ffb74d 0%, #ff9800 100%) !important;
+        color: #fffbe6 !important;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 16px;
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0 4px;
+        box-shadow: 0 2px 8px #ffb88c55;
+        transition: background 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s;
+        cursor: pointer;
+        outline: none;
+      }
+      .table-container .btn-accion.btn-editar {
+        background: linear-gradient(90deg, #ffd54f 0%, #ff9800 100%) !important;
+        color: #a65c00 !important;
+      }
+      .table-container .btn-accion.btn-eliminar {
+        background: linear-gradient(90deg, #ffb88c 0%, #ff6f61 100%) !important;
+        color: #fffbe6 !important;
+      }
+      .table-container .btn-accion:hover {
+        background: linear-gradient(90deg, #ff9800 0%, #ffd54f 100%) !important;
+        color: #fffbe6 !important;
+        box-shadow: 0 4px 16px #ffb88c99;
+        transform: scale(1.07);
+      }
+      .table-container .btn-accion.btn-eliminar:hover {
+        background: linear-gradient(90deg, #ff6f61 0%, #ffb88c 100%) !important;
+        color: #fffbe6 !important;
+      }
+      .table-container .btn-accion.btn-editar:hover {
+        background: linear-gradient(90deg, #ff9800 0%, #ffd54f 100%) !important;
+        color: #a65c00 !important;
+      }
+      .table-container .btn-accion i {
+        margin-right: 4px;
+      }
+    </style>
+</head>
+<body>
+    <!-- Cuadro de diálogo de bienvenida -->
+    <div id="welcome-dialog" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(255,184,140,0.18);backdrop-filter:blur(2px);">
+      <div style="background:linear-gradient(135deg,#fffbe6 70%,#ffd8b0 100%);border-radius:28px;box-shadow:0 8px 32px #ffb88c77,0 2px 16px #ff980055;padding:36px 38px 28px 38px;max-width:480px;width:90vw;display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;">
+        <button id="close-welcome" aria-label="Cerrar bienvenida" style="position:absolute;top:12px;right:16px;background:transparent;border:none;font-size:1.6rem;color:#ff9800;cursor:pointer;font-weight:bold;transition:color 0.2s;z-index:2;">&times;</button>
+        <h1 style="color:#ff9800;font-size:2.1rem;font-family:'Montserrat','Poppins',sans-serif;font-weight:900;text-shadow:0 2px 12px #ffecd2cc;margin-bottom:8px;text-align:center;">
+          ¡Bienvenido a SAKORM'S Inventory!
+        </h1>
+        <p style="color:#a65c00;font-size:1.18rem;text-align:center;margin-bottom:6px;">
+          Gestiona tu inventario de manera sencilla, segura y eficiente.<br>
+          <span style="color:#ff6f61;font-weight:600;">Sigue las instrucciones para iniciar sesión, crear una cuenta o recuperar tu acceso.</span>
+        </p>
+        <ul style="color:#a65c00;font-size:1.05rem;text-align:left;list-style:disc inside;margin:0 0 0 10px;padding:0;">
+          <li>Ingresa tu correo y contraseña para acceder.</li>
+          <li>¿No tienes cuenta? Haz clic en <b>Crear cuenta nueva</b>.</li>
+          <li>¿Olvidaste tu contraseña? Usa <b>¿Olvidaste tu contraseña?</b> para recuperarla.</li>
+          <li>Puedes usar el acceso rápido con Google, Facebook, Twitter o Instagram.</li>
+          <li>Para ayuda adicional, revisa la sección de <b>Ayuda</b> o contáctanos.</li>
+        </ul>
+        <span id="welcome-timer" style="color:#ff9800;font-size:0.98rem;margin-top:10px;">Este mensaje se cerrará en 25 segundos...</span>
+      </div>
+    </div>
+    <!-- Botones flotantes -->
+    <a href="https://wa.me/5549130325" target="_blank" class="fab-btn fab-whatsapp" title="WhatsApp" aria-label="WhatsApp" tabindex="0"
+       style="width:56px;height:56px;bottom:30px;right:30px;position:fixed;
+              background: linear-gradient(135deg,#25d366 0%,#128c7e 100%);
+              color:#fff;box-shadow:0 4px 16px #25d36655; font-size:1.7rem;">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+    <button class="fab-btn fab-ai" id="btnAI" title="Mejorar con AI" aria-label="Mejorar con AI" onclick="toggleAIEnhancements()" tabindex="0"
+   style="width:56px;height:56px;bottom:100px;right:30px;position:fixed;
+          background: linear-gradient(135deg,#00f0ff 0%,#7e00ff 100%);
+          color:#fff;box-shadow:0 4px 16px #0fffc155; font-size:1.7rem;transition:background 0.4s,box-shadow 0.4s,filter 0.4s;">
+  <i class="fas fa-robot"></i>
+</button>
+    <main class="login-main">
+      <div class="login-container" style="display:flex;flex-direction:column;align-items:center;">
+        <!-- Logo editable en login -->
+        <div id="logo-box-login" style="width:220px;height:220px;background:linear-gradient(135deg,#fffbe6 70%,#ffd8b0 100%);border-radius:32px;box-shadow:0 8px 32px #ffb88c55,0 2px 16px #ff980055;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;margin-bottom:24px;transition:width 0.3s,height 0.3s;">
+          <img id="main-logo-login" src="IMAGES/logo.jpeg" alt="Logo SAKORM'S Inventory" style="max-width:180px;max-height:180px;object-fit:contain;transition:filter 0.3s;" />
+          <div id="logo-btns-login" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:2;pointer-events:none;opacity:0;transition:opacity 0.3s;">
+            <input type="file" id="logo-input-login" accept="image/*" style="display:none;" />
+            <button id="btn-modificar-login" type="button" style="background:#ffb74d;color:#fffbe6;border:none;border-radius:8px;padding:8px 18px;font-size:1.08rem;font-weight:700;box-shadow:0 2px 8px #ffb88c55;cursor:pointer;pointer-events:auto;">Modificar</button>
+            <div style="display:flex;gap:8px;">
+              <button id="btn-guardar-login" type="button" style="background:#43cea2;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:1.05rem;font-weight:700;box-shadow:0 2px 8px #43cea255;cursor:pointer;pointer-events:auto;">Guardar</button>
+              <button id="btn-cancelar-login" type="button" style="background:#ff6f61;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:1.05rem;font-weight:700;box-shadow:0 2px 8px #ff6f6155;cursor:pointer;pointer-events:auto;">Cancelar</button>
+            </div>
+          </div>
+        </div>
+        <script>
+          const logoBoxLogin = document.getElementById('logo-box-login');
+          const logoBtnsLogin = document.getElementById('logo-btns-login');
+          const btnModificarLogin = document.getElementById('btn-modificar-login');
+          const btnGuardarLogin = document.getElementById('btn-guardar-login');
+          const btnCancelarLogin = document.getElementById('btn-cancelar-login');
+          const logoInputLogin = document.getElementById('logo-input-login');
+          const mainLogoLogin = document.getElementById('main-logo-login');
+          let originalLogoLogin = mainLogoLogin.src;
+          let tempLogoLogin = null;
+
+          logoBoxLogin.addEventListener('mouseenter', () => {
+            logoBoxLogin.style.width = '280px';
+            logoBoxLogin.style.height = '280px';
+            logoBtnsLogin.style.opacity = '1';
+            logoBtnsLogin.style.pointerEvents = 'auto';
+            mainLogoLogin.style.filter = 'blur(1.5px) brightness(0.85)';
+          });
+          logoBoxLogin.addEventListener('mouseleave', () => {
+            logoBoxLogin.style.width = '220px';
+            logoBoxLogin.style.height = '220px';
+            logoBtnsLogin.style.opacity = '0';
+            logoBtnsLogin.style.pointerEvents = 'none';
+            mainLogoLogin.style.filter = '';
+            if (!tempLogoLogin) mainLogoLogin.src = originalLogoLogin;
+          });
+          btnModificarLogin.onclick = () => logoInputLogin.click();
+          logoInputLogin.onchange = e => {
+            const file = e.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = ev => {
+                mainLogoLogin.src = ev.target.result;
+                tempLogoLogin = ev.target.result;
+              };
+              reader.readAsDataURL(file);
+            }
+          };
+          btnGuardarLogin.onclick = () => {
+            if (tempLogoLogin) {
+              originalLogoLogin = tempLogoLogin;
+              tempLogoLogin = null;
+              logoBoxLogin.style.width = '220px';
+              logoBoxLogin.style.height = '220px';
+              logoBtnsLogin.style.opacity = '0';
+              logoBtnsLogin.style.pointerEvents = 'none';
+              mainLogoLogin.style.filter = '';
+            }
+          };
+          btnCancelarLogin.onclick = () => {
+            mainLogoLogin.src = originalLogoLogin;
+            tempLogoLogin = null;
+            logoBoxLogin.style.width = '220px';
+            logoBoxLogin.style.height = '220px';
+            logoBtnsLogin.style.opacity = '0';
+            logoBtnsLogin.style.pointerEvents = 'none';
+            mainLogoLogin.style.filter = '';
+          };
+        </script>
+        <div class="login-card">
+          <h2><i class="fas fa-cube"></i> Bienvenido a SAKORM'S Inventory</h2>
+          <img src="IMAGES/Fond.gif" alt="Decoración bienvenida" style="width:90px;display:block;margin:0 auto 10px auto;border-radius:18px;box-shadow:0 2px 12px #ffb88c99;">
+          <p class="login-welcome" style="font-size:1.45rem; font-weight:700;">Gestiona tu inventario de forma segura y eficiente.<br><span class="login-tip"><i class="fas fa-shield-alt"></i> Consejo: Nunca compartas tu contraseña y usa una combinación segura.</span></p>
+          <div style="margin:12px 0 18px 0;display:flex;align-items:center;gap:10px;justify-content:center;">
+            <span style="color:#ff9800;font-size:1.1rem;"><i class="fas fa-lightbulb"></i> Tip: Puedes usar la calculadora digital integrada.</span>
+            <span style="color:#ff6f61;font-size:1.1rem;"><i class="fas fa-robot"></i> Mejora tu experiencia con AI.</span>
+          </div>
+          <!-- Formulario de login -->
+          <form id="login-form" autocomplete="off" style="display:block;" onsubmit="validarLogin(event)">
+            <label for="email"><i class="fas fa-envelope"></i> Correo electrónico</label>
+            <input type="email" id="email" placeholder="usuario@correo.com" required autofocus>
+            <label for="password"><i class="fas fa-lock"></i> Contraseña</label>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <div id="login-error" class="input-error" style="display:none;"></div>
+            <button type="submit" class="btn-login">Ingresar</button>
+            <div class="login-extra-links">
+              <a href="#" onclick="mostrarRecuperar();return false;" style="color:#ff9800;"><i class="fas fa-key"></i> ¿Olvidaste tu contraseña?</a>
+              <a href="#" onclick="mostrarRegistro();return false;" style="color:#0fffc1;"><i class="fas fa-user-plus"></i> Crear cuenta nueva</a>
+            </div>
+          </form>
+          <!-- Formulario de registro -->
+          <form id="register-form" autocomplete="off" style="display:none;" onsubmit="registrarCuenta(event)">
+            <label for="reg-nombre"><i class="fas fa-user"></i> Nombre</label>
+            <input type="text" id="reg-nombre" placeholder="Tu nombre" required>
+            <label for="reg-email"><i class="fas fa-envelope"></i> Correo electrónico</label>
+            <input type="email" id="reg-email" placeholder="usuario@correo.com" required>
+            <label for="reg-password"><i class="fas fa-lock"></i> Contraseña</label>
+            <input type="password" id="reg-password" placeholder="Contraseña" required>
+            <div id="register-error" class="input-error" style="display:none;"></div>
+            <button type="submit" class="btn-login">Registrarse</button>
+            <div class="register-link"><a href="#" onclick="mostrarLogin();return false;">¿Ya tienes cuenta? Inicia sesión</a></div>
+          </form>
+          <!-- Formulario de recuperación -->
+          <form id="recover-form" autocomplete="off" style="display:none;" onsubmit="recuperarCuenta(event)">
+            <label for="rec-email"><i class="fas fa-envelope"></i> Correo electrónico</label>
+            <input type="email" id="rec-email" placeholder="usuario@correo.com" required>
+            <div id="recover-error" class="input-error" style="display:none;"></div>
+            <button type="submit" class="btn-login">Recuperar contraseña</button>
+            <div class="register-link"><a href="#" onclick="mostrarLogin();return false;">Volver a iniciar sesión</a></div>
+          </form>
+          <!-- Login social -->
+          <div class="social-login">
+            <p>O ingresa con:</p>
+            <div class="social-buttons">
+              <button class="btn-social google" onclick="socialLogin('google')" title="Google" type="button"><i class="fab fa-google"></i></button>
+              <button class="btn-social facebook" onclick="socialLogin('facebook')" title="Facebook" type="button"><i class="fab fa-facebook-f"></i></button>
+              <button class="btn-social twitter" onclick="socialLogin('twitter')" title="Twitter" type="button"><i class="fab fa-twitter"></i></button>
+              <button class="btn-social instagram" onclick="socialLogin('instagram')" title="Instagram" type="button"><i class="fab fa-instagram"></i></button>
+            </div>
+          </div>
+          <div class="login-help">
+            <p><i class="fas fa-info-circle"></i> ¿Necesitas ayuda? <a href="#">Contáctanos</a> o revisa la <a href="#">documentación</a>.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Footer -->
+    <footer class="main-footer login-footer-static">
+      <div class="footer-row">
+        <div class="footer-brand">
+          <span class="footer-logo"><i class="fas fa-cube"></i></span>
+          <span class="footer-title">SAKORM'S Inventory</span>
+        </div>
+        <nav class="footer-nav">
+          <a href="#" title="Inicio"><i class="fas fa-home"></i> Inicio</a>
+          <a href="#" title="Soporte"><i class="fas fa-headset"></i> Soporte</a>
+          <a href="#" title="Ayuda"><i class="fas fa-question-circle"></i> Ayuda</a>
+          <a href="#" title="Política de Privacidad"><i class="fas fa-user-shield"></i> Privacidad</a>
+        </nav>
+        <div class="footer-contact">
+          <span><i class="fas fa-envelope"></i> contacto@sakorms.org</span>
+          <span><i class="fas fa-phone"></i> +52 55 4913 0325</span>
+        </div>
+        <div class="footer-icons">
+          <a href="https://wa.me/5549130325" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-copy">&copy; 2025 SAKORM'S-IT. Todos los derechos reservados. | <a href="#">Términos y condiciones</a></div>
+    </footer>
+    <!-- JS principal -->
+    <script src="js/login.js"></script>
+    <script>
+      // Oculta el cuadro de bienvenida tras 25 segundos o al hacer clic en la X
+      let timer = 25;
+      const welcomeDialog = document.getElementById('welcome-dialog');
+      const welcomeTimer = document.getElementById('welcome-timer');
+      const closeWelcome = document.getElementById('close-welcome');
+      const interval = setInterval(() => {
+        timer--;
+        if (welcomeTimer) welcomeTimer.textContent = `Este mensaje se cerrará en ${timer} segundos...`;
+        if (timer <= 0) {
+          if (welcomeDialog) welcomeDialog.style.display = 'none';
+          clearInterval(interval);
+        }
+      }, 1000);
+      if (closeWelcome) {
+        closeWelcome.onclick = () => {
+          if (welcomeDialog) welcomeDialog.style.display = 'none';
+          clearInterval(interval);
+        };
+      }
+      // --- INTEGRACIÓN REGISTRO USUARIO CON API Y MODAL ---
+      function mostrarModalMensaje(msg, tipo = 'info') {
+        // Modal visual reutilizable (si ya existe, reutiliza)
+        let modal = document.getElementById('modal-mensaje');
+        if (!modal) {
+          modal = document.createElement('div');
+          modal.id = 'modal-mensaje';
+          modal.style.position = 'fixed';
+          modal.style.top = '0';
+          modal.style.left = '0';
+          modal.style.width = '100vw';
+          modal.style.height = '100vh';
+          modal.style.display = 'flex';
+          modal.style.alignItems = 'center';
+          modal.style.justifyContent = 'center';
+          modal.style.background = 'rgba(255,184,140,0.18)';
+          modal.style.backdropFilter = 'blur(2px)';
+          modal.style.zIndex = '99999';
+          modal.innerHTML = `<div style="background:linear-gradient(135deg,#fffbe6 70%,#ffd8b0 100%);border-radius:24px;box-shadow:0 8px 32px #ffb88c77,0 2px 16px #ff980055;padding:32px 36px 24px 36px;max-width:400px;width:90vw;display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;">
+            <button id="cerrar-modal-mensaje" aria-label="Cerrar" style="position:absolute;top:10px;right:16px;background:transparent;border:none;font-size:1.5rem;color:#ff9800;cursor:pointer;font-weight:bold;">&times;</button>
+            <div id="modal-mensaje-icono" style="font-size:2.2rem;margin-bottom:8px;"></div>
+            <div id="modal-mensaje-texto" style="color:#a65c00;font-size:1.15rem;text-align:center;"></div>
+          </div>`;
+          document.body.appendChild(modal);
+        }
+        // Icono según tipo
+        let icono = '<i class="fas fa-info-circle"></i>';
+        if (tipo === 'error') icono = '<i class="fas fa-times-circle" style="color:#ff6f61;"></i>';
+        if (tipo === 'success') icono = '<i class="fas fa-check-circle" style="color:#43cea2;"></i>';
+        modal.querySelector('#modal-mensaje-icono').innerHTML = icono;
+        modal.querySelector('#modal-mensaje-texto').innerHTML = msg;
+        modal.style.display = 'flex';
+        // Cerrar
+        modal.querySelector('#cerrar-modal-mensaje').onclick = () => { modal.style.display = 'none'; };
+        setTimeout(() => { modal.style.display = 'none'; }, 4000);
+      }
+      async function registrarCuenta(event) {
+        event.preventDefault();
+        const nombre = document.getElementById('reg-nombre').value.trim();
+        const email = document.getElementById('reg-email').value.trim();
+        const password = document.getElementById('reg-password').value;
+        const errorDiv = document.getElementById('register-error');
+        errorDiv.style.display = 'none';
+        if (!nombre || !email || !password) {
+          errorDiv.textContent = 'Completa todos los campos.';
+          errorDiv.style.display = 'block';
+          return;
+        }
+        try {
+          const resp = await fetch('api/usuarios.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre, email, password })
+          });
+          const data = await resp.json();
+          if (resp.ok && data.success) {
+            mostrarModalMensaje('¡Registro exitoso! Ahora puedes iniciar sesión.', 'success');
+            document.getElementById('register-form').reset();
+            setTimeout(() => mostrarLogin(), 2000);
+          } else {
+            let msg = data.error || 'Error al registrar. Intenta con otro correo.';
+            mostrarModalMensaje(msg, 'error');
+            errorDiv.textContent = msg;
+            errorDiv.style.display = 'block';
+          }
+        } catch (e) {
+          mostrarModalMensaje('Error de conexión. Intenta más tarde.', 'error');
+          errorDiv.textContent = 'Error de conexión. Intenta más tarde.';
+          errorDiv.style.display = 'block';
+        }
+      }
+    </script>
+</body>
+</html>

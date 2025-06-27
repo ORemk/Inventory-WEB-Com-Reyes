@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>📦 Inventario de Productos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js" defer></script>
+    <script src="js/script.js" defer></script>
+    <style>
+      .fab-calc { 
+        z-index: 10050 !important; 
+        display: block !important;
+        position: fixed !important;
+        right: 30px;
+        bottom: 30px;
+      }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="main-header">
+        <h1>
+            <i class="fas fa-rocket"></i> Gestión de Inventario 📦✨
+        </h1>
+    </header>
+
+    <!-- Navigation Section -->
+    <nav class="navbar">
+        <ul class="navbar-menu">
+            <li><a href="#registro-productos" onclick="resaltarSeccion('registro-productos')"><i class="fas fa-plus-circle"></i> Registrar Producto 🛠️</a></li>
+            <li><a href="#filtros" onclick="resaltarSeccion('filtros')"><i class="fas fa-filter"></i> Filtros 🔍</a></li>
+            <li><a href="#productos" onclick="resaltarSeccion('productos')"><i class="fas fa-box"></i> Productos 📦</a></li>
+            <li><a href="#importar-exportar" onclick="resaltarSeccion('importar-exportar')"><i class="fas fa-file-import"></i> Importar/Exportar 📥</a></li>
+            <li><a href="#ejemplo-tabla" onclick="resaltarSeccion('ejemplo-tabla')"><i class="fas fa-table"></i> Ejemplo de Tabla 📊</a></li>
+            <li><a href="#registro-categorias" onclick="resaltarSeccion('registro-categorias')"><i class="fas fa-list"></i> Categorías 🗂️</a></li>
+            <li><a href="#contacto" onclick="resaltarSeccion('contacto')"><i class="fas fa-envelope"></i> Contacto 📧</a></li>
+        </ul>
+    </nav>
+
+    <!-- Mensajes de éxito y error -->
+    <div id="tabla-mensaje" class="tabla-mensaje"></div>
+
+    <!-- Cuadro de diálogo de bienvenida -->
+    <div id="welcome-dialog" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(255,184,140,0.18);backdrop-filter:blur(2px);">
+      <div style="background:linear-gradient(135deg,#fffbe6 70%,#ffd8b0 100%);border-radius:28px;box-shadow:0 8px 32px #ffb88c77,0 2px 16px #ff980055;padding:36px 38px 28px 38px;max-width:520px;width:92vw;display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;">
+        <button id="close-welcome" aria-label="Cerrar bienvenida" style="position:absolute;top:12px;right:16px;background:transparent;border:none;font-size:1.7rem;color:#ff9800;cursor:pointer;font-weight:bold;transition:color 0.2s;z-index:2;">&times;</button>
+        <h1 style="color:#ff9800;font-size:2.1rem;font-family:'Montserrat','Poppins',sans-serif;font-weight:900;text-shadow:0 2px 12px #ffecd2cc;margin-bottom:8px;text-align:center;">
+          ¡Bienvenido al Inventario de Productos!
+        </h1>
+        <p style="color:#a65c00;font-size:1.18rem;text-align:center;margin-bottom:6px;">
+          Gestiona, consulta y organiza tus productos de forma eficiente y segura.<br>
+          <span style="color:#ff6f61;font-weight:600;">Sigue las instrucciones para aprovechar todas las funciones del sistema.</span>
+        </p>
+        <ul style="color:#a65c00;font-size:1.05rem;text-align:left;list-style:disc inside;margin:0 0 0 10px;padding:0;max-width:440px;">
+          <li>Registra nuevos productos usando el formulario correspondiente.</li>
+          <li>Utiliza los filtros para buscar y organizar tu inventario.</li>
+          <li>Edita o elimina productos desde la tabla de registros.</li>
+          <li>Importa o exporta tu inventario en diferentes formatos.</li>
+          <li>Consulta la sección de ayuda o contáctanos si tienes dudas.</li>
+        </ul>
+        <span id="welcome-timer" style="color:#ff9800;font-size:0.98rem;margin-top:10px;">Este mensaje se cerrará en 40 segundos...</span>
+      </div>
+    </div>
+
+    <!-- Modal de diálogo reutilizable para confirmaciones y mensajes -->
+    <div id="modal-dialogo" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:100000;background:rgba(24,28,43,0.18);backdrop-filter:blur(2.5px);align-items:center;justify-content:center;">
+      <div id="modal-dialogo-content" style="background:linear-gradient(135deg,#fffbe6 70%,#ffd8b0 100%);border-radius:32px;box-shadow:0 8px 32px #ffb88c99,0 2px 16px #ff980055;padding:38px 44px 30px 44px;max-width:420px;width:92vw;display:flex;flex-direction:column;align-items:center;gap:18px;position:relative;animation:fadeIn 0.4s;">
+        <button id="cerrar-modal-dialogo" aria-label="Cerrar" style="position:absolute;top:12px;right:16px;background:transparent;border:none;font-size:1.7rem;color:#ff9800;cursor:pointer;font-weight:bold;transition:color 0.2s;z-index:2;">&times;</button>
+        <div id="modal-dialogo-icono" style="font-size:2.5rem;"></div>
+        <h2 id="modal-dialogo-titulo" style="color:#ff9800;font-size:1.5rem;font-family:'Montserrat','Poppins',sans-serif;font-weight:900;text-shadow:0 2px 12px #ffecd2cc;margin-bottom:8px;text-align:center;"></h2>
+        <p id="modal-dialogo-mensaje" style="color:#a65c00;font-size:1.13rem;text-align:center;margin-bottom:6px;"></p>
+        <div id="modal-dialogo-input-container" style="width:100%;display:none;flex-direction:column;align-items:center;gap:10px;">
+          <input id="modal-dialogo-input" type="text" style="width:90%;padding:10px 12px;border-radius:10px;border:1.5px solid #ff9800;font-size:1.08rem;" placeholder="Escribe aquí...">
+        </div>
+        <div id="modal-dialogo-botones" style="display:flex;gap:18px;margin-top:8px;"></div>
+      </div>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="container">
+        <!-- Logo grande editable antes del registro de productos -->
+        <div id="logo-box-container" style="width:100%;display:flex;justify-content:center;margin:32px 0 24px 0;">
+          <div id="logo-box" style="width:340px;height:340px;background:linear-gradient(135deg,#fffbe6 70%,#ffd8b0 100%);border-radius:36px;box-shadow:0 8px 32px #ffb88c55,0 2px 16px #ff980055;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;transition:width 0.3s,height 0.3s;">
+            <img id="main-logo" src="IMAGES/logo.jpeg" alt="Logo SAKORM'S Inventory" style="max-width:280px;max-height:280px;object-fit:contain;transition:filter 0.3s;" />
+            <!-- Botones ocultos por defecto -->
+            <div id="logo-btns" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:2;pointer-events:none;opacity:0;transition:opacity 0.3s;">
+              <input type="file" id="logo-input" accept="image/*" style="display:none;" />
+              <button id="btn-modificar" type="button" style="background:#ffb74d;color:#fffbe6;border:none;border-radius:8px;padding:8px 18px;font-size:1.08rem;font-weight:700;box-shadow:0 2px 8px #ffb88c55;cursor:pointer;pointer-events:auto;">Modificar</button>
+              <div style="display:flex;gap:8px;">
+                <button id="btn-guardar" type="button" style="background:#43cea2;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:1.05rem;font-weight:700;box-shadow:0 2px 8px #43cea255;cursor:pointer;pointer-events:auto;">Guardar</button>
+                <button id="btn-cancelar" type="button" style="background:#ff6f61;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:1.05rem;font-weight:700;box-shadow:0 2px 8px #ff6f6155;cursor:pointer;pointer-events:auto;">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+          const logoBox = document.getElementById('logo-box');
+          const logoBtns = document.getElementById('logo-btns');
+          const btnModificar = document.getElementById('btn-modificar');
+          const btnGuardar = document.getElementById('btn-guardar');
+          const btnCancelar = document.getElementById('btn-cancelar');
+          const logoInput = document.getElementById('logo-input');
+          const mainLogo = document.getElementById('main-logo');
+          let originalLogo = mainLogo.src;
+          let tempLogo = null;
+
+          logoBox.addEventListener('mouseenter', () => {
+            logoBox.style.width = '420px';
+            logoBox.style.height = '420px';
+            logoBtns.style.opacity = '1';
+            logoBtns.style.pointerEvents = 'auto';
+            mainLogo.style.filter = 'blur(1.5px) brightness(0.85)';
+          });
+          logoBox.addEventListener('mouseleave', () => {
+            logoBox.style.width = '340px';
+            logoBox.style.height = '340px';
+            logoBtns.style.opacity = '0';
+            logoBtns.style.pointerEvents = 'none';
+            mainLogo.style.filter = '';
+            if (!tempLogo) mainLogo.src = originalLogo;
+          });
+          btnModificar.onclick = () => logoInput.click();
+          logoInput.onchange = e => {
+            const file = e.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = ev => {
+                mainLogo.src = ev.target.result;
+                tempLogo = ev.target.result;
+              };
+              reader.readAsDataURL(file);
+            }
+          };
+          btnGuardar.onclick = () => {
+            if (tempLogo) {
+              originalLogo = tempLogo;
+              tempLogo = null;
+              logoBox.style.width = '340px';
+              logoBox.style.height = '340px';
+              logoBtns.style.opacity = '0';
+              logoBtns.style.pointerEvents = 'none';
+              mainLogo.style.filter = '';
+            }
+          };
+          btnCancelar.onclick = () => {
+            mainLogo.src = originalLogo;
+            tempLogo = null;
+            logoBox.style.width = '340px';
+            logoBox.style.height = '340px';
+            logoBtns.style.opacity = '0';
+            logoBtns.style.pointerEvents = 'none';
+            mainLogo.style.filter = '';
+          };
+        </script>
+
+        <!-- Registro de Productos -->
+        <section id="registro-productos" class="section">
+            <h2><i class="fas fa-plus-circle"></i> Registrar Producto</h2>
+            <form id="formulario-inventario" autocomplete="off">
+                <label for="codigo-producto"><i class="fas fa-barcode"></i> Código del Producto:</label>
+                <input type="text" id="codigo-producto" placeholder="Ingrese el código del producto 🏷️" required>
+
+                <label for="nombre-producto"><i class="fas fa-tag"></i> Nombre del Producto:</label>
+                <input type="text" id="nombre-producto" placeholder="Ingrese el nombre del producto 📛" required>
+
+                <label for="costo-producto"><i class="fas fa-money-bill-wave"></i> Costo del Producto:</label>
+                <input type="number" id="costo-producto" placeholder="Ingrese el costo del producto 💲" required>
+
+                <label for="precio-producto"><i class="fas fa-dollar-sign"></i> Precio del Producto:</label>
+                <input type="number" id="precio-producto" placeholder="Ingrese el precio del producto 💲" required>
+
+                <label for="fecha-caducidad"><i class="fas fa-calendar-alt"></i> Fecha de Caducidad:</label>
+                <input type="date" id="fecha-caducidad" required>
+
+                <label for="categoria-producto"><i class="fas fa-list"></i> Categoría:</label>
+                <select id="categoria-producto" required>
+                    <option value="" disabled selected>Seleccione una categoría...</option>
+                </select>
+
+                <label for="imagen-producto"><i class="fas fa-image"></i> Imagen del Producto:</label>
+                <input type="file" id="imagen-producto" accept="image/*">
+            </form>
+
+            <!-- Botón Agregar Producto -->
+            <button type="button" class="btn-agregar-producto" id="btn-agregar" onclick="agregarProducto()">
+                <i class="fas fa-plus-circle"></i> Agregar Producto ➕
+            </button>
+        </section>
+
+        <!-- Filtros -->
+        <section id="filtros" class="section">
+            <h2><i class="fas fa-filter"></i> Filtros</h2>
+            <button id="btn-toggle-filtros" class="btn" type="button" onclick="toggleFiltros()">Mostrar Filtros</button>
+            <div id="filtros-contenedor" style="display: none;">
+                <div class="filtros-container">
+                    <div class="filtro-seccion">
+                        <label for="filtro-nombre"><i class="fas fa-tag"></i> Nombre:</label>
+                        <input type="text" id="filtro-nombre" placeholder="🔍 Filtrar por nombre..." oninput="filtrarProductos()">
+
+                        <label for="filtro-categoria"><i class="fas fa-list"></i> Categoría:</label>
+                        <input type="text" id="filtro-categoria" placeholder="🔍 Filtrar por categoría..." oninput="filtrarProductos()">
+
+                        <label for="filtro-existencia"><i class="fas fa-sort-numeric-up"></i> Existencia Mínima:</label>
+                        <input type="number" id="filtro-existencia" placeholder="🔍 Cantidad mínima..." oninput="filtrarProductos()">
+                    </div>
+
+                    <div class="orden-seccion">
+                        <label for="orden-productos"><i class="fas fa-sort-alpha-down"></i> Ordenar por:</label>
+                        <select id="orden-productos" onchange="filtrarProductos()">
+                            <option value="nombre-asc">Nombre (A-Z)</option>
+                            <option value="nombre-desc">Nombre (Z-A)</option>
+                            <option value="existencia-asc">Existencia (Menor a Mayor)</option>
+                            <option value="existencia-desc">Existencia (Mayor a Menor)</option>
+                            <option value="fecha-registro">Fecha de Registro</option>
+                            <option value="fecha-caducidad">Fecha de Caducidad</option>
+                        </select>
+                    </div>
+
+                    <div class="botones-filtro">
+                        <button class="btn-limpiar" onclick="limpiarBusqueda()">
+                            <i class="fas fa-eraser"></i> Limpiar Filtros
+                        </button>
+                        <button class="btn-aplicar" onclick="filtrarProductos()">
+                            <i class="fas fa-check"></i> Aplicar Filtros
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Productos -->
+        <section id="productos" class="section">
+            <h2><i class="fas fa-box"></i> Productos Registrados</h2>
+            <div class="table-container">
+                <button id="btn-eliminar-todo" class="btn-eliminar" style="margin-bottom:16px;float:right;" onclick="confirmarEliminarTodo()">
+                    <i class="fas fa-trash"></i> Eliminar TODO el Inventario
+                </button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Costo</th>
+                            <th>Precio</th>
+                            <th>Fecha de Caducidad</th>
+                            <th>Fecha de Registro</th>
+                            <th>Categoría</th>
+                            <th>Imagen</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-body">
+                        <!-- Los productos se cargarán dinámicamente aquí -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Importar/Exportar -->
+        <section id="importar-exportar" class="section">
+            <h2><i class="fas fa-file-import"></i> Importar y Exportar Archivos</h2>
+            <div class="import-export">
+                <!-- Ejemplo de botón corregido -->
+                <button id="importar-excel" class="btn-importar-excel" onclick="importarExcel()">
+                    <i class="fas fa-file-excel"></i> Importar Excel 📥
+                </button>
+                <button id="exportar-excel" class="btn-exportar-excel" onclick="exportarExcel()">
+                    <i class="fas fa-file-excel"></i> Exportar Excel 📤
+                </button>
+                <button id="importar-pdf" class="btn-importar-pdf" onclick="importarPDF()">
+                    <i class="fas fa-file-pdf"></i> Importar PDF 📥
+                </button>
+                <button id="exportar-pdf" class="btn-exportar-pdf" onclick="exportarPDF()">
+                    <i class="fas fa-file-pdf"></i> Exportar PDF 📤
+                </button>
+            </div>
+        </section>
+
+        <!-- Ejemplo de Tabla -->
+        <section id="ejemplo-tabla" class="section">
+            <h2><i class="fas fa-table"></i> Ejemplo de Tabla para Importar Inventario</h2>
+            <button id="btn-tabla-ejemplo" class="btn" onclick="toggleTablaEjemplo()">
+                Mostrar Tabla de Ejemplo
+            </button>
+            <div id="tabla-ejemplo" style="display: none;">
+                <div id="tabla-ejemplo-indicaciones" style="background: #e3ffe8; color: #185a9d; border-radius: 10px; padding: 14px 18px; margin-bottom: 18px; font-size: 1.08rem; box-shadow: 0 2px 8px #43cea244; display: none;">
+                    <strong>Indicaciones:</strong>
+                    <ul style="margin: 8px 0 0 18px; padding: 0;">
+                        <li>Utiliza esta tabla como referencia para importar tu inventario desde Excel.</li>
+                        <li>Las columnas deben coincidir exactamente con los nombres y el orden mostrados.</li>
+                        <li>La columna <b>Imagen (URL)</b> es opcional, pero si se incluye debe ser una ruta válida o dejar el valor por defecto.</li>
+                        <li>Los campos <b>Código</b>, <b>Nombre</b>, <b>Existencia</b>, <b>Precio</b>, <b>Fecha de Caducidad</b> y <b>Categoría</b> son obligatorios.</li>
+                        <li>Revisa que los datos no tengan errores antes de importar.</li>
+                    </ul>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Existencia</th>
+                            <th>Precio</th>
+                            <th>Fecha de Caducidad</th>
+                            <th>Categoría</th>
+                            <th>Imagen (URL)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>001</td>
+                            <td>Producto A</td>
+                            <td>10</td>
+                            <td>50.00</td>
+                            <td>2023-12-31</td>
+                            <td>Electrónica</td>
+                            <td>img/placeholder.png</td>
+                        </tr>
+                        <tr>
+                            <td>002</td>
+                            <td>Producto B</td>
+                            <td>20</td>
+                            <td>100.00</td>
+                            <td>2024-01-15</td>
+                            <td>Ropa</td>
+                            <td>img/placeholder.png</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Registro de Categorías -->
+        <section id="registro-categorias" class="section">
+            <h2><i class="fas fa-list"></i> Registro de Categorías</h2>
+            <button id="btn-toggle-categorias" class="btn" type="button" onclick="toggleRegistroCategorias()">Mostrar Categorías</button>
+            <div id="registro-categorias-contenedor" style="display: none;">
+                <form id="formulario-categorias" autocomplete="off">
+                    <label for="nueva-categoria"><i class="fas fa-plus-circle"></i> Nueva Categoría:</label>
+                    <input type="text" id="nueva-categoria" placeholder="Ingrese una nueva categoría...">
+                    <button type="button" class="btn-agregar" onclick="agregarCategoria()">
+                        <i class="fas fa-plus"></i> Agregar Categoría
+                    </button>
+                </form>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-categorias">
+                            <!-- Categorías dinámicas -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contacto -->
+        <section id="contacto" class="section">
+            <h2><i class="fas fa-envelope"></i> Contacto 📧</h2>
+            <div class="contacto-container">
+                <p><i class="fas fa-building"></i> <strong>Empresa:</strong> SAKORM`S-IT 🏢</p>
+                <p><i class="fas fa-envelope"></i> <strong>Correo:</strong> <a href="mailto:omarreyes7375@gmail.com">omarreyes7375@gmail.com</a></p>
+                <p><i class="fab fa-whatsapp"></i> <strong>WhatsApp:</strong> <a href="https://wa.me/5549130325" target="_blank" rel="noopener">5549130325</a></p>
+                <p><i class="fas fa-map-marker-alt"></i> <strong>Dirección:</strong> Ciudad de México, México 📍</p>
+            </div>
+
+            <!-- Formulario de contacto -->
+            <div class="contact-form-container ai-contact-form">
+                <h3><i class="fas fa-envelope-open-text"></i> Envíanos un mensaje ✉️</h3>
+                <form id="contact-form" autocomplete="off">
+                    <label for="nombre-contacto"><i class="fas fa-user"></i> Nombre:</label>
+                    <input type="text" id="nombre-contacto" name="nombre-contacto" placeholder="👤 Ingrese su nombre completo" required>
+
+                    <label for="correo-contacto"><i class="fas fa-envelope"></i> Correo Electrónico:</label>
+                    <input type="email" id="correo-contacto" name="correo-contacto" placeholder="📧 Ingrese su correo electrónico" required>
+
+                    <label for="telefono-contacto"><i class="fas fa-phone"></i> Teléfono:</label>
+                    <input type="tel" id="telefono-contacto" name="telefono-contacto" placeholder="📞 Ingrese su número de teléfono" pattern="[0-9+\s\-()]{7,20}">
+
+                    <label for="mensaje-contacto"><i class="fas fa-comment-dots"></i> Mensaje:</label>
+                    <textarea id="mensaje-contacto" name="mensaje-contacto" rows="4" placeholder="💬 Escriba su mensaje aquí..." required></textarea>
+
+                    <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Enviar Mensaje 🚀</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2023 SAKORM`S-IT. Todos los derechos reservados.</p>
+            <div class="social-icons">
+                <a href="https://www.facebook.com" target="_blank" title="Facebook" rel="noopener">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://www.twitter.com" target="_blank" title="Twitter" rel="noopener">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://www.instagram.com" target="_blank" title="Instagram" rel="noopener">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.linkedin.com" target="_blank" title="LinkedIn" rel="noopener">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botones flotantes ordenados y mejorados (tamaño aumentado) -->
+    <a href="https://wa.me/5549130325" target="_blank" class="fab-btn fab-whatsapp" title="WhatsApp" aria-label="WhatsApp"
+       style="z-index:10020;width:72px;height:72px;bottom:30px;right:30px;position:fixed;
+              background: linear-gradient(135deg,#25d366 0%,#128c7e 100%);
+              color:#fff;box-shadow:0 4px 16px #25d36655; font-size:2.2rem;">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+    <a href="login.html" class="fab-btn fab-login" title="Iniciar sesión" aria-label="Iniciar sesión"
+       style="z-index:10021;width:72px;height:72px;bottom:110px;right:30px;position:fixed;
+              background: linear-gradient(135deg,#007bff 0%,#43cea2 100%);
+              color:#fff;box-shadow:0 4px 16px #007bff55; font-size:2.2rem;">
+      <i class="fas fa-user"></i>
+    </a>
+    <button class="fab-btn fab-ai" id="btnAI" title="Modo Futurista" aria-label="Modo Futurista" onclick="toggleAIEnhancements()" style="z-index:10022;width:72px;height:72px;bottom:190px;right:30px;position:fixed;
+      background: linear-gradient(135deg,#00f0ff 0%,#7e00ff 100%);
+      color:#fff;box-shadow:0 4px 16px #0fffc155; font-size:2.2rem;transition:background 0.4s,box-shadow 0.4s,filter 0.4s;">
+      <i class="fas fa-robot"></i>
+    </button>
+    <button class="fab-btn fab-ai" id="btnAIChat" title="Asistente Virtual" aria-label="Asistente Virtual" onclick="toggleAIChat()"
+       style="z-index:10023;width:72px;height:72px;bottom:270px;right:30px;position:fixed;
+              background: linear-gradient(135deg,#ffb74d 0%,#ff9800 100%);
+              color:#fff;box-shadow:0 4px 16px #ffb74d55; font-size:2.2rem;">
+      <i class="fas fa-comments"></i>
+    </button>
+    <button class="fab-btn fab-calc" title="Calculadora" aria-label="Abrir calculadora" onclick="toggleCalculator()" tabindex="0"
+      style="z-index:10050;
+             background: linear-gradient(135deg,#fffbe6 0%,#ffe0c3 100%);
+             border: 3.5px solid #ff9800;
+             box-shadow: 0 10px 36px #ffb74d99, 0 2px 16px #ff980044;
+             width:78px;height:78px;padding:0;
+             display:flex;align-items:center;justify-content:center;
+             transition: background 0.3s, box-shadow 0.3s, border 0.3s, transform 0.2s;
+             bottom:350px;right:30px;position:fixed; font-size:2.2rem;">
+      <span style="display:flex;align-items:center;justify-content:center;">
+        <!-- Icono calculadora moderno, con fondo degradado, teclas y pantalla, y símbolo de suma -->
+        <svg width="38" height="38" viewBox="0 0 92 92" fill="none" style="display:block;" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="calcBgGrad" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stop-color="#fffbe6"/>
+              <stop offset="100%" stop-color="#ffe0c3"/>
+            </radialGradient>
+            <linearGradient id="calcKeyGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ffb74d"/>
+              <stop offset="100%" stop-color="#ff9800"/>
+            </linearGradient>
+            <linearGradient id="calcScreenGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#fff"/>
+              <stop offset="100%" stop-color="#ffe0b2"/>
+            </linearGradient>
+          </defs>
+          <!-- Cuerpo -->
+          <rect x="12" y="12" width="68" height="68" rx="17" fill="url(#calcBgGrad)" stroke="#ff9800" stroke-width="4"/>
+          <!-- Pantalla -->
+          <rect x="24" y="24" width="44" height="15" rx="5" fill="url(#calcScreenGrad)"/>
+          <rect x="24" y="24" width="44" height="15" rx="5" fill="none" stroke="#ff9800" stroke-width="2"/>
+          <!-- Teclas -->
+          <circle cx="33" cy="52" r="6" fill="url(#calcKeyGrad)" stroke="#ff9800" stroke-width="1.5"/>
+          <circle cx="46" cy="52" r="6" fill="url(#calcKeyGrad)" stroke="#ff9800" stroke-width="1.5"/>
+          <circle cx="59" cy="52" r="6" fill="url(#calcKeyGrad)" stroke="#ff9800" stroke-width="1.5"/>
+          <circle cx="33" cy="68" r="6" fill="url(#calcKeyGrad)" stroke="#ff9800" stroke-width="1.5"/>
+          <circle cx="46" cy="68" r="6" fill="url(#calcKeyGrad)" stroke="#ff9800" stroke-width="1.5"/>
+          <circle cx="59" cy="68" r="6" fill="url(#calcKeyGrad)" stroke="#ff9800" stroke-width="1.5"/>
+          <!-- Símbolo de suma destacado -->
+          <rect x="43" y="41" width="10" height="4" rx="2" fill="#ff9800"/>
+          <rect x="47" y="37" width="2" height="12" rx="1" fill="#ff9800"/>
+          <!-- Sombra suave -->
+          <ellipse cx="46" cy="84" rx="26" ry="4" fill="#ffb74d" opacity="0.18"/>
+          <!-- Detalle de brillo -->
+          <ellipse cx="28" cy="22" rx="8" ry="3" fill="#fff" opacity="0.18"/>
+        </svg>
+      </span>
+    </button>
+    <!-- Chatbot AI flotante -->
+    <div id="aiChatbot" class="ai-chatbot" style="display:none;">
+      <div class="ai-chat-header">
+        <span><i class="fas fa-robot ai-anim"></i> Asistente Inteligente</span>
+        <button class="ai-chat-close" onclick="toggleAIChat()">&times;</button>
+      </div>
+      <div class="ai-chat-body" id="aiChatBody">
+        <div class="ai-chat-msg ai-chat-msg-bot">¡Hola! Soy tu asistente inteligente 🤖. ¿En qué puedo ayudarte hoy?</div>
+      </div>
+      <form class="ai-chat-input" onsubmit="return sendAIMessage(event)">
+        <input type="text" id="aiChatInput" placeholder="Escribe tu pregunta..." autocomplete="off" />
+        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+      </form>
+      <div class="ai-chat-status" id="aiChatStatus" style="display:none;">Pensando...</div>
+    </div>
+    <!-- Modal de confirmación de eliminación masiva -->
+    <div id="modal-eliminacion-todo" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;background:rgba(255,184,140,0.18);backdrop-filter:blur(2px);align-items:center;justify-content:center;">
+      <div style="background:linear-gradient(135deg,#fffbe6 70%,#ffd8b0 100%);border-radius:28px;box-shadow:0 8px 32px #ffb88c77,0 2px 16px #ff980055;padding:36px 38px 28px 38px;max-width:420px;width:90vw;display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;">
+        <button id="cerrar-modal-eliminacion-todo" aria-label="Cerrar" style="position:absolute;top:12px;right:16px;background:transparent;border:none;font-size:1.6rem;color:#ff9800;cursor:pointer;font-weight:bold;transition:color 0.2s;z-index:2;">&times;</button>
+        <h2 style="color:#ff6f61;font-size:1.7rem;font-family:'Montserrat','Poppins',sans-serif;font-weight:900;text-shadow:0 2px 12px #ffecd2cc;margin-bottom:8px;text-align:center;">¡Inventario eliminado!</h2>
+        <p style="color:#a65c00;font-size:1.18rem;text-align:center;margin-bottom:6px;">Todos los productos han sido eliminados correctamente.<br>Esta acción no se puede deshacer.</p>
+      </div>
+    </div>
+    <script>
+      // Oculta el cuadro de bienvenida tras 40 segundos o al hacer clic en la X
+      let timer = 40;
+      const welcomeDialog = document.getElementById('welcome-dialog');
+      const welcomeTimer = document.getElementById('welcome-timer');
+      const closeWelcome = document.getElementById('close-welcome');
+      const interval = setInterval(() => {
+        timer--;
+        if (welcomeTimer) welcomeTimer.textContent = `Este mensaje se cerrará en ${timer} segundos...`;
+        if (timer <= 0) {
+          if (welcomeDialog) welcomeDialog.style.display = 'none';
+          clearInterval(interval);
+        }
+      }, 1000);
+      if (closeWelcome) {
+        closeWelcome.onclick = () => {
+          if (welcomeDialog) welcomeDialog.style.display = 'none';
+          clearInterval(interval);
+        };
+      }
+      function toggleTablaEjemplo() {
+          toggleSeccion('tabla-ejemplo', 'btn-tabla-ejemplo', 'Mostrar Tabla de Ejemplo', 'Ocultar Tabla de Ejemplo');
+          // Mostrar/ocultar indicaciones junto con la tabla
+          var tablaEjemplo = document.getElementById('tabla-ejemplo');
+          var indicaciones = document.getElementById('tabla-ejemplo-indicaciones');
+          if (tablaEjemplo && indicaciones) {
+              if (tablaEjemplo.style.display === 'block' || tablaEjemplo.style.display === '') {
+                  indicaciones.style.display = 'block';
+              } else {
+                  indicaciones.style.display = 'none';
+              }
+          }
+      }
+      function confirmarEliminarTodo() {
+        // Confirmar antes de eliminar todo el inventario
+        if (confirm('⚠️ Esta acción eliminará TODO el inventario. Escribe "si" para confirmar.')) {
+          const respuesta = prompt('Escribe "si" para confirmar la eliminación de todo el inventario:');
+          if (respuesta === 'si') {
+            // Lógica para eliminar todo el inventario
+            eliminarTodoInventario();
+          } else {
+            alert('Operación cancelada. El inventario no ha sido eliminado.');
+          }
+        }
+      }
+    </script>
+</body>
+</html>
